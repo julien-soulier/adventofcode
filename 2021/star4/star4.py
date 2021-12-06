@@ -13,8 +13,6 @@ i=0
 board = {'all': [], 'lines': []}
 for l in lines[1:]:
     line = list(map(int, l.split()))
-    if len(line) == 0:
-        next
 
     board['lines'].append(line)
     board['all'].extend(line)

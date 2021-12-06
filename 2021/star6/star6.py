@@ -42,7 +42,6 @@ def part1():
 
 children_table = {}
 def part2():
-    children = {}
     for day in range(257):
         children_table[day] = {}
         for a in range(9):
