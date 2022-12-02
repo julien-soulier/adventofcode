@@ -27,6 +27,25 @@ def part1():
 
     return len(ON)
 
+def intersect(c0, c1):
+    for c in range(3):
+        v0 = set(range(c0[2*c], c0[2*c+1]+1))
+        v1 = set(range(c1[2*c], c1[2*c+1]+1))
+        i = v0.intersection(v1)
+        if len(i)==0:
+            return False
+    return True
+
+def union(cubes, cube):
+    for c in cubes:
+        if intersect(c, cube):
+            x0 = max(c[0], cube[0])
+            x1 = min(c[1], cube[1])
+            y0 = max(c[2], cube[2])
+            y1 = min(c[3], cube[3])
+            z0 = max(c[4], cube[4])
+            z1 = min(c[5], cube[5])
+
 def part2():
     ON = set()
     i = 0

@@ -1,3 +1,5 @@
+import itertools
+
 f = open("input.txt", "r")
 opcodes = list(map(int, f.read().split(',')))
 f.close()
@@ -5,10 +7,10 @@ f.close()
 def get_argument(code, pos, mode):
     return code[pos] if mode == 1 else code[code[pos]]
 
-one_arg = [1,2,4,5,6,7,8]
-two_arg = [1,2,5,6,7,8]
-
 def run(code, input):
+    one_arg = [1,2,4,5,6,7,8]
+    two_arg = [1,2,5,6,7,8]
+
     pos = 0
     output = []
     mode = {}
@@ -55,12 +57,19 @@ def run(code, input):
     return output
 
 def part1():
-    output = run(opcodes.copy(), [1])
-    return output.pop()
+    final_out = []
+    for perm in itertools.permutations(range(5)):
+        out = [0]
+        phases = list(perm)
+        for amp in range(5):
+            phase = phases.pop(0)
+            out = run(opcodes.copy(), [phase, out.pop()])
+        final_out.append(out.pop())
+
+    return max(final_out)
     
 def part2():
-    output = run(opcodes.copy(), [5])
-    return output.pop()
+    return 0
 
 print("Solution part1 is {}".format(part1()))
 
