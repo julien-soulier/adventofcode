@@ -1,17 +1,9 @@
-f = open("input.txt", "r")
-input = f.read()
-f.close()
+#/bin/env python3
 
 # !!! must remove the last empty line in input.txt !!!
-E=input.split('\n\n')
-C=[sum(map(int, x.split('\n'))) for x in E]
-C.sort(reverse=True)
-
-def part1():
-    return C[0]
-
-def part2():
-    return sum(C[0:3])
-
-print("Soution part1 is {}".format(part1()))
-print("Soution part2 is {}".format(part2()))
+with open("input.txt", "r") as f:
+    E=f.read().split('\n\n')
+    C=[sum(map(int, x.split('\n'))) for x in E]
+    C.sort(reverse=True)
+    print(f"Soution part1 is {C[0]}")
+    print(f"Soution part2 is {sum(C[0:3])}")
