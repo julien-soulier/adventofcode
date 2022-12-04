@@ -5,10 +5,11 @@ def priority(c):
     return ord(c) - ord('A' if c.isupper() else 'a') + base
 
 def get_sum(items):
-    return sum(map(lambda x: priority(x.pop()), items))
+    return sum(priority(x.pop()) for x in items)
 
 with open("input.txt", "r") as f:
     L = f.read().splitlines()
+    
     items = [set(l[0:len(l)//2]).intersection(set(l[len(l)//2:])) for l in L]
     print(f"Soution part1 is {get_sum(items)}")
 
