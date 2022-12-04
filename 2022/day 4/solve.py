@@ -11,6 +11,6 @@ def overlap(pair):
 
 with open("input.txt", "r") as f:
     res = [overlap(pair) for pair in f.read().splitlines()]
-    print(f"Soution part1 is {sum(map(lambda x: x[0], res))}")
-    print(f"Soution part2 is {sum(map(lambda x: x[1], res))}")
+    print(f"Soution part1 is {sum(x[0] for x in res)}")
+    print(f"Soution part2 is {sum(x[1] for x in res)}")
 
