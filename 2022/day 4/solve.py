@@ -4,8 +4,8 @@ from parse import *
 import functools
 
 #### CODING STYLE 1 #####
-def overlap(pair):
-    r = parse("{:d}-{:d},{:d}-{:d}", pair)
+def overlap(line):
+    r = parse("{:d}-{:d},{:d}-{:d}", line)
     full = 1 if (r[0]>=r[2] and r[1]<=r[3]) or (r[0]<=r[2] and r[1]>=r[3]) else 0
     part = 1 if (r[0]>=r[2] and r[0]<=r[3]) or (r[1]>=r[2] and r[1]<=r[3]) or (r[2]>=r[0] and r[2]<=r[1]) or (r[3]>=r[0] and r[3]<=r[1]) else 0
     return (full, part)
