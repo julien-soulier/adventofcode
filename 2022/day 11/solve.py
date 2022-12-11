@@ -3,41 +3,26 @@
 import re
 import numpy as np 
 
+mk_re = r"^\s+Starting items: (.+)$"
+mk_re += r"\s+Operation: new = (.+)$"
+mk_re += r"\s+Test: divisible by (.+)$"
+mk_re += r"\s+If true: throw to monkey (.+)$"
+mk_re += r"\s+If false: throw to monkey (.+)$"
+
 class Monkey():
 
     def __init__(self, description):
         self.activity = 0
-
-        # Need to use float due to integer overflow in part 2
-        m = re.search("Starting items: (.*)\n", description)
+        m = re.search(mk_re, description, re.MULTILINE)
         if m:
+            # Need to use float due to integer overflow in part 2 otherwise
             self.items=list(map(float, m.group(1).split(',')))
+            self.operation = m.group(2)
+            self.modulus = int(m.group(3))
+            self.true = int(m.group(4))
+            self.false = int(m.group(5))
         else:
-            raise RuntimeError(f"Cannot find items in {description}")
-
-        m = re.search("Operation: new = (.*)\n", description)
-        if m:
-            self.operation = m.group(1)
-        else:
-            raise RuntimeError(f"Cannot find operation in {description}")
-
-        m = re.search("Test: divisible by (.*)\n", description)
-        if m:
-            self.modulus = int(m.group(1))
-        else:
-            raise RuntimeError(f"Cannot find modulus in {description}")
-        
-        m = re.search("If true: throw to monkey (.*)\n", description)
-        if m:
-            self.true = int(m.group(1))
-        else:
-            raise RuntimeError(f"Cannot find true condition in {description}")
-
-        m = re.search("If false: throw to monkey (.*)$", description)
-        if m:
-            self.false = int(m.group(1))
-        else:
-            raise RuntimeError(f"Cannot find false condition in {description}")
+            raise RuntimeError(f"Cannot parse Monkey description {description}")
 
     def __str__(self):
         print(self.items)
@@ -48,10 +33,14 @@ class Monkey():
         while len(self.items) > 0:
             self.activity += 1
             old = self.items.pop(0)
+            # operarion uses "old" as variable
             new = eval(self.operation)
             if divide:
                 new //= 3
+            
+            # we can operate modulus LCM of all modulus to avoid too large numbers
             new %= LCM
+
             r = {'item': new}
             r['monkey'] = self.true if new % self.modulus == 0 else self.false
             result.append(r)
